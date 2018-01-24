@@ -2,5 +2,8 @@
   "name": "chitanda-san",
   "version": "1.0.0",
   "description": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "syobocal": "^1.0.0"
+  }
 }
