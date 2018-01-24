@@ -29,6 +29,8 @@ axios.get(config.entrypoint, {
         })
       }
     });
+
+    // TODO: Slack通知
     console.log(animes)
   });
 }).catch((error) => {
