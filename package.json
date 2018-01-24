@@ -5,9 +5,11 @@
   "license": "MIT",
   "scripts": {
     "start": "babel script.js | node"
-   },
+  },
   "dependencies": {
-    "syobocal": "^1.0.0"
+    "axios": "^0.17.1",
+    "moment": "^2.20.1",
+    "rss-parser": "^3.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
