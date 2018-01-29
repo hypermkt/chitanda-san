@@ -36,19 +36,14 @@ axios.get(config.entrypoint, {
       }
     });
 
-    sendMessage(messages.join('\n'));
+    webhook.send(messages.join('\n'), function(err, res) {
+      if (err) {
+          console.log('Error:', err);
+      } else {
+          console.log('Message sent: ', res);
+      }
+    });
   });
 }).catch((error) => {
   console.log(error);
 });
-
-function sendMessage(message)
-{
-  webhook.send(message, function(err, res) {
-    if (err) {
-        console.log('Error:', err);
-    } else {
-        console.log('Message sent: ', res);
-    }
-  });
-}
