@@ -11,7 +11,8 @@
     "axios": "^0.17.1",
     "dotenv": "^4.0.0",
     "moment": "^2.20.1",
-    "rss-parser": "^3.0.1"
+    "rss-parser": "^3.0.1",
+    "takosan": "github:hypermkt/takosan.js#master"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
