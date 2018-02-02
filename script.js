@@ -1,14 +1,17 @@
 import moment from 'moment';
 import axios from 'axios';
+import Takosan from 'takosan';
 import Parser from 'rss-parser';
 import { IncomingWebhook } from '@slack/client';
 import dotenv from 'dotenv'
 
 dotenv.config()
 
-const webhook = new IncomingWebhook(process.env.INCOMING_WEBHOOK_URL, {
-  username: process.env.INCOMING_WEBHOOK_USERNAME,
-  iconEmoji: process.env.INCOMING_WEBHOOK_ICONEMOJI,
+let takosan = new Takosan({
+  url: process.env.TAKOSAN_URL,
+  channel: process.env.TAKOSAN_CHANNEL,
+  name: process.env.TAKOSAN_NAME,
+  icon: process.env.TAKOSAN_ICON,
 });
 
 let parser = new Parser();
@@ -36,13 +39,7 @@ axios.get(config.entrypoint, {
       }
     });
 
-    webhook.send(messages.join('\n'), function(err, res) {
-      if (err) {
-          console.log('Error:', err);
-      } else {
-          console.log('Message sent: ', res);
-      }
-    });
+    takosan.privmsg(messages.join('\n'));
   });
 }).catch((error) => {
   console.log(error);
