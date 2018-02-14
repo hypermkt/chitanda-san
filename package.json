@@ -4,7 +4,7 @@
   "description": "",
   "license": "MIT",
   "scripts": {
-    "start": "babel script.js | node"
+    "notify": "babel script.js | node"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
