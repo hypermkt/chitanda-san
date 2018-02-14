@@ -29,7 +29,7 @@ axios.get(config.entrypoint, {
 }).then((response) => {
   parser.parseString(response.data, (err, feed) => {
     let messages = []
-    messages.push('*わたし、気になります！*');
+    messages.push('*わたし、今日のテレビアニメが気になります！*');
     feed.items.forEach(item => {
       let program = item.title.split('##')
       // 地域：東京、カテゴリー：アニメ
