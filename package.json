@@ -7,6 +7,7 @@
     "start": "babel script.js | node"
   },
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "@slack/client": "^3.15.0",
     "axios": "^0.17.1",
     "dotenv": "^4.0.0",
@@ -15,7 +16,6 @@
     "takosan": "github:hypermkt/takosan.js#master"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1"
   }
 }
