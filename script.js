@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import axios from 'axios';
 import Takosan from 'takosan';
 import Parser from 'rss-parser';
@@ -34,7 +34,7 @@ axios.get(config.entrypoint, {
       let program = item.title.split('##')
       // 地域：東京、カテゴリー：アニメ
       if (program[2] == 1 && (program[0] == 1)) {
-        let start_time = moment(program[7], 'X').format('YYYY/MM/DD HH:mm');
+        let start_time = moment(program[7], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
         messages.push(`> ${program[4]}  /  ${program[3]} ${start_time} 〜 `);
       }
     });
