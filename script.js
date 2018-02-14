@@ -22,7 +22,7 @@ let config = {
 
 axios.get(config.entrypoint, {
   params: {
-    start: moment().format('YYYYMMDDHHmm'),
+    start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
     days: 1,
     titlefmt: '$(Cat)##$(Flag)##$(ChGID)##$(ChName)##$(Title)##$(Count)##$(SubTitleA)##$(StTimeU)##$(EdTimeU)'
   }
