@@ -13,7 +13,7 @@
     "babel-preset-es2015": "^6.24.1",
     "dotenv": "^4.0.0",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.14",
+    "moment-timezone": "^0.5.23",
     "rss-parser": "^3.0.1",
     "takosan": "github:hypermkt/takosan.js#master"
   }
