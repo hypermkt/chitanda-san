@@ -14,7 +14,7 @@
     "dotenv": "^6.2.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.23",
-    "rss-parser": "^3.0.1",
+    "rss-parser": "^3.6.2",
     "takosan": "github:hypermkt/takosan.js#master"
   }
 }
