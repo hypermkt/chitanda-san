@@ -7,7 +7,7 @@
     "notify": "babel script.js | node"
   },
   "dependencies": {
-    "@slack/client": "^4.9.0",
+    "@slack/client": "^4.10.0",
     "axios": "^0.18.0",
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
