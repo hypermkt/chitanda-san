@@ -23,8 +23,7 @@ let config = {
 
 axios.get(config.entrypoint, {
   params: {
-    start: moment().tz('Asia/Tokyo').format('201904031300'),
-    // start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
+    start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
     // 1日分取得する
     days: 1,
 
