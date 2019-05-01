@@ -43,18 +43,20 @@ axios.get(config.entrypoint, {
   }
 }).then((response) => {
   moment.locale('ja') // 日本語の曜日を出力するため
+  let categories = {1: ':tv:', 8: ':movie_camera:'}
   parser.parseString(response.data, (err, feed) => {
     let messages = []
     messages.push('*わたし、今日のテレビアニメが気になります！*');
     messages.push('');
     feed.items.forEach(item => {
       let program = item.title.split('##')
-      if (program[0] == 1 &&  // カテゴリー: アニメ
+      if ((program[0] == 1 || program[0] == 8) && // カテゴリー: アニメ・映画
           program[2] == 1     // 地域: 東京
         ) {
         let start_time = moment(program[8], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD(dd) HH:mm');
         let end_time = moment(program[9], 'X').tz('Asia/Tokyo').format('HH:mm');
-        messages.push(`・${start_time}-${end_time} ${program[4]} / *${program[5]}* `);
+        let category = categories[program[0]]
+        messages.push(`・${category} ${start_time}-${end_time} ${program[4]} / *${program[5]}* `);
       }
     });
 
