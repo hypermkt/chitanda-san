@@ -23,7 +23,8 @@ let config = {
 
 axios.get(config.entrypoint, {
   params: {
-    start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
+    start: moment().tz('Asia/Tokyo').format('201904031300'),
+    // start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
     // 1日分取得する
     days: 1,
 
@@ -31,26 +32,30 @@ axios.get(config.entrypoint, {
       0: カテゴリ値
       1: フラグ値
       2: チャンネルグループID
-      3: チャンネル名
-      4: 完全なタイトル
-      5: 回数 = 話数
-      6: サブタイトル
-      7: 開始時間 (Unix Epoch)
-      8: 終了時間 (Unix Epoch)
+      3: チャンネルID
+      4: チャンネル名
+      5: 完全なタイトル
+      6: 回数 = 話数
+      7: サブタイトル
+      8: 開始時間 (Unix Epoch)
+      9: 終了時間 (Unix Epoch)
     */
-    titlefmt: '$(Cat)##$(Flag)##$(ChGID)##$(ChName)##$(Title)##$(Count)##$(SubTitleA)##$(StTimeU)##$(EdTimeU)'
+    titlefmt: '$(Cat)##$(Flag)##$(ChGID)##$(ChID)##$(ChName)##$(Title)##$(Count)##$(SubTitleA)##$(StTimeU)##$(EdTimeU)'
   }
 }).then((response) => {
+  moment.locale('ja') // 日本語の曜日を出力するため
   parser.parseString(response.data, (err, feed) => {
     let messages = []
     messages.push('*わたし、今日のテレビアニメが気になります！*');
+    messages.push('');
     feed.items.forEach(item => {
       let program = item.title.split('##')
       if (program[0] == 1 &&  // カテゴリー: アニメ
           program[2] == 1     // 地域: 東京
         ) {
-        let start_time = moment(program[7], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
-        messages.push(`> ${program[4]}  /  ${program[3]} ${start_time} 〜 `);
+        let start_time = moment(program[8], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD(dd) HH:mm');
+        let end_time = moment(program[9], 'X').tz('Asia/Tokyo').format('HH:mm');
+        messages.push(`・${start_time}-${end_time} ${program[4]} / *${program[5]}* `);
       }
     });
 
