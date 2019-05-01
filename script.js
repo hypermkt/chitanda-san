@@ -43,7 +43,7 @@ axios.get(config.entrypoint, {
   }
 }).then((response) => {
   moment.locale('ja') // 日本語の曜日を出力するため
-  let categories = {1: ':tv:', 8: ':movie_camera:'}
+  let categories = {1: '[TV]', 8: '[映]'}
   parser.parseString(response.data, (err, feed) => {
     let messages = []
     messages.push('*わたし、今日のテレビアニメが気になります！*');
