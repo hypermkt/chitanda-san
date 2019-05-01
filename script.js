@@ -16,6 +16,7 @@ let takosan = new Takosan({
 
 let parser = new Parser();
 
+// refs: https://sites.google.com/site/syobocal/spec/rss2-php
 let config = {
   entrypoint: 'http://cal.syoboi.jp/rss2.php'
 };
@@ -23,7 +24,20 @@ let config = {
 axios.get(config.entrypoint, {
   params: {
     start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
+    // 1日分取得する
     days: 1,
+
+    /*
+      0: カテゴリ値
+      1: フラグ値
+      2: チャンネルグループID
+      3: チャンネル名
+      4: 完全なタイトル
+      5: 回数 = 話数
+      6: サブタイトル
+      7: 開始時間 (Unix Epoch)
+      8: 終了時間 (Unix Epoch)
+    */
     titlefmt: '$(Cat)##$(Flag)##$(ChGID)##$(ChName)##$(Title)##$(Count)##$(SubTitleA)##$(StTimeU)##$(EdTimeU)'
   }
 }).then((response) => {
@@ -32,8 +46,9 @@ axios.get(config.entrypoint, {
     messages.push('*わたし、今日のテレビアニメが気になります！*');
     feed.items.forEach(item => {
       let program = item.title.split('##')
-      // 地域：東京、カテゴリー：アニメ
-      if (program[2] == 1 && (program[0] == 1)) {
+      if (program[0] == 1 &&  // カテゴリー: アニメ
+          program[2] == 1     // 地域: 東京
+        ) {
         let start_time = moment(program[7], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD HH:mm');
         messages.push(`> ${program[4]}  /  ${program[3]} ${start_time} 〜 `);
       }
