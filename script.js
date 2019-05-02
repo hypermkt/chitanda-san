@@ -2,7 +2,6 @@ import moment from 'moment-timezone';
 import axios from 'axios';
 import Takosan from 'takosan';
 import Parser from 'rss-parser';
-import { IncomingWebhook } from '@slack/client';
 import dotenv from 'dotenv'
 
 dotenv.config()
