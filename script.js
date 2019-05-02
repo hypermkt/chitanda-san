@@ -14,8 +14,6 @@ const takosan = new Takosan({
   icon: process.env.TAKOSAN_ICON,
 });
 
-const parser = new Parser();
-
 // refs: https://sites.google.com/site/syobocal/spec/rss2-php
 const config = {
   entrypoint: 'http://cal.syoboi.jp/rss2.php',
@@ -43,26 +41,36 @@ const config = {
 axios.get(config.entrypoint, {
   params: config.params
 }).then((response) => {
-  moment.locale('ja') // 日本語の曜日を出力するため
-  const categories = {1: '[TV]', 8: '[映]'}
-  parser.parseString(response.data, (err, feed) => {
-    let messages = []
-    messages.push('*わたし、今日のテレビアニメが気になります！*');
-    messages.push('');
-    feed.items.forEach(item => {
-      const program = item.title.split('##')
-      if ((program[0] == 1 || program[0] == 8) && // カテゴリー: アニメ・映画
-          program[2] == 1     // 地域: 東京
-        ) {
-        const start_time = moment(program[8], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD(dd) HH:mm');
-        const end_time = moment(program[9], 'X').tz('Asia/Tokyo').format('HH:mm');
-        const category = categories[program[0]]
-        messages.push(`・${category} ${start_time}-${end_time} ${program[4]} / *${program[5]}* `);
-      }
-    });
-
-    takosan.privmsg(messages.join('\n'));
-  });
+  parseRss(response.data).then((val) => {
+    notify(val)
+  })
 }).catch((error) => {
   console.log(error);
 });
+
+async function parseRss(content) {
+  moment.locale('ja') // 日本語の曜日を出力するため
+  const parser = new Parser();
+  const feed = await parser.parseString(content)
+  const categories = {1: '[TV]', 8: '[映]'}
+  let messages = []
+  messages.push('*わたし、今日のテレビアニメが気になります！*');
+  messages.push('');
+  feed.items.forEach(item => {
+    const program = item.title.split('##')
+    if ((program[0] == 1 || program[0] == 8) && // カテゴリー: アニメ・映画
+        program[2] == 1     // 地域: 東京
+      ) {
+      const start_time = moment(program[8], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD(dd) HH:mm');
+      const end_time = moment(program[9], 'X').tz('Asia/Tokyo').format('HH:mm');
+      const category = categories[program[0]]
+      messages.push(`・${category} ${start_time}-${end_time} ${program[4]} / *${program[5]}* `);
+    }
+  });
+
+  return messages.join('\n')
+}
+
+const notify = (message) => {
+    takosan.privmsg(message);
+}
