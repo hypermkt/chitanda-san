@@ -18,10 +18,7 @@ const parser = new Parser();
 
 // refs: https://sites.google.com/site/syobocal/spec/rss2-php
 const config = {
-  entrypoint: 'http://cal.syoboi.jp/rss2.php'
-};
-
-axios.get(config.entrypoint, {
+  entrypoint: 'http://cal.syoboi.jp/rss2.php',
   params: {
     start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
     // 1日分取得する
@@ -41,6 +38,10 @@ axios.get(config.entrypoint, {
     */
     titlefmt: '$(Cat)##$(Flag)##$(ChGID)##$(ChID)##$(ChName)##$(Title)##$(Count)##$(SubTitleA)##$(StTimeU)##$(EdTimeU)'
   }
+};
+
+axios.get(config.entrypoint, {
+  params: config.params
 }).then((response) => {
   moment.locale('ja') // 日本語の曜日を出力するため
   const categories = {1: '[TV]', 8: '[映]'}
