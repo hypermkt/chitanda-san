@@ -17,6 +17,7 @@ class ChitandaSan {
     });
 
     moment.tz.setDefault('Asia/Tokyo')
+    moment.locale('ja') // 日本語の曜日を出力するため
   }
 
   fetchAndNotify() {
@@ -36,7 +37,6 @@ class ChitandaSan {
   }
 
   async parseRss(content) {
-    moment.locale('ja') // 日本語の曜日を出力するため
     const parser = new Parser();
     const feed = await parser.parseString(content)
     const categories = {1: '[TV]', 8: '[映]'}
