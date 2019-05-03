@@ -28,8 +28,8 @@ class ChitandaSan {
         titlefmt: config.titlefmt,
       }
     }).then((response) => {
-      this.parseRss(response.data).then((val) => {
-        this.notify(val)
+      this.parseRss(response.data).then((feeds) => {
+        this.notify(this.createMessages(feeds))
       })
     }).catch((error) => {
       console.log(error);
@@ -38,12 +38,16 @@ class ChitandaSan {
 
   async parseRss(content) {
     const parser = new Parser();
-    const feed = await parser.parseString(content)
+    const feeds = await parser.parseString(content)
+    return feeds
+  }
+
+  createMessages(feeds) {
     const categories = {1: '[TV]', 8: '[映]'}
     let messages = []
     messages.push('*わたし、今日のテレビアニメが気になります！*');
     messages.push('');
-    feed.items.forEach(item => {
+    feeds.items.forEach(item => {
       const program = item.title.split('##')
       if ((program[0] == 1 || program[0] == 8) && // カテゴリー: アニメ・映画
           program[2] == 1     // 地域: 東京
