@@ -15,6 +15,12 @@ $ export TAKOSAN_ICON=:erutaso:
 $ npm install
 ```
 
+## Build
+
+```sh
+$ npm run build
+```
+
 ## Execute
 
 ```sh
