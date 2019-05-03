@@ -23,7 +23,8 @@ class ChitandaSan {
   fetchAndNotify() {
     axios.get(config.entrypoint, {
       params: {
-        start: moment().format('YYYYMMDDHHmm'),
+        start: moment().format('YYYYMMDD1300'),
+        end: moment().add(1, 'days').format('YYYYMMDD0300'),
         days: config.days,
         titlefmt: config.titlefmt,
       }
@@ -39,27 +40,35 @@ class ChitandaSan {
   async parseRss(content) {
     const parser = new Parser();
     const feeds = await parser.parseString(content)
-    return feeds
+    return feeds.items.map(item => {
+      const program = item.title.split('##')
+      return {
+        Cat: program[0],
+        Flag: program[1],
+        ChGID: program[2],
+        ChID: program[3],
+        ChName: program[4],
+        Title: program[5],
+        Count: program[6],
+        SubTitleA: program[7],
+        StTimeU: program[8],
+        EdTimeU: program[9],
+      }
+    }).filter(item => {
+      return (item.Cat == 1 || item.Cat == 8) && item.ChGID == 1 // カテゴリー: アニメ・映画, 地域: 東京
+    })
   }
 
-  createMessages(feeds) {
+  createMessages(items) {
     const categories = {1: '[TV]', 8: '[映]'}
-    let messages = []
-    messages.push('*わたし、今日のテレビアニメが気になります！*');
-    messages.push('');
-    feeds.items.forEach(item => {
-      const program = item.title.split('##')
-      if ((program[0] == 1 || program[0] == 8) && // カテゴリー: アニメ・映画
-          program[2] == 1     // 地域: 東京
-        ) {
-        const start_time = moment(program[8], 'X').format('YYYY/MM/DD(dd) HH:mm');
-        const end_time = moment(program[9], 'X').format('HH:mm');
-        const category = categories[program[0]]
-        messages.push(`・${category} ${start_time}-${end_time} ${program[4]} / *${program[5]}* `);
-      }
-    });
+    const messages = items.map(item => {
+        const start_time = moment(item.StTimeU, 'X').format('YYYY/MM/DD(dd) HH:mm');
+        const end_time = moment(item.EdTimeU, 'X').format('HH:mm');
+        const category = categories[item.Cat]
+        return `・${category} ${start_time}-${end_time} ${item.ChName} / *${item.Title}* `
+    })
 
-    return messages.join('\n')
+    return ['*わたし、今日のテレビアニメが気になります！*', ''].concat(messages).join('\n')
   }
 
   notify(message) {
