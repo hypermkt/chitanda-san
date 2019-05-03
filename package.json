@@ -4,16 +4,19 @@
   "description": "",
   "license": "MIT",
   "scripts": {
-    "notify": "babel script.js | node"
+    "build": "npx webpack --config webpack.config.js",
+    "notify": "node dist/chitanda-san.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
     "dotenv": "^7.0.0",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "rss-parser": "^3.7.0",
     "takosan": "^0.0.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1"
   }
 }
