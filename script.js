@@ -15,12 +15,14 @@ class ChitandaSan {
       name: process.env.TAKOSAN_NAME,
       icon: process.env.TAKOSAN_ICON,
     });
+
+    moment.tz.setDefault('Asia/Tokyo')
   }
 
   fetchAndNotify() {
     axios.get(config.entrypoint, {
       params: {
-        start: moment().tz('Asia/Tokyo').format('YYYYMMDDHHmm'),
+        start: moment().format('YYYYMMDDHHmm'),
         days: config.days,
         titlefmt: config.titlefmt,
       }
@@ -46,8 +48,8 @@ class ChitandaSan {
       if ((program[0] == 1 || program[0] == 8) && // カテゴリー: アニメ・映画
           program[2] == 1     // 地域: 東京
         ) {
-        const start_time = moment(program[8], 'X').tz('Asia/Tokyo').format('YYYY/MM/DD(dd) HH:mm');
-        const end_time = moment(program[9], 'X').tz('Asia/Tokyo').format('HH:mm');
+        const start_time = moment(program[8], 'X').format('YYYY/MM/DD(dd) HH:mm');
+        const end_time = moment(program[9], 'X').format('HH:mm');
         const category = categories[program[0]]
         messages.push(`・${category} ${start_time}-${end_time} ${program[4]} / *${program[5]}* `);
       }
