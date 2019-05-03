@@ -4,7 +4,8 @@
   "description": "",
   "license": "MIT",
   "scripts": {
-    "notify": "babel script.js | node"
+    "build": "npx webpack --config webpack.config.js",
+    "notify": "node dist/chitanda-san.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
