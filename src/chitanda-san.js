@@ -62,7 +62,7 @@ class ChitandaSan {
   createMessages(items) {
     const categories = {1: '[TV]', 8: '[映]'}
     const messages = items.map(item => {
-        const start_time = moment(item.StTimeU, 'X').format('YYYY/MM/DD(dd) HH:mm');
+        const start_time = moment(item.StTimeU, 'X').format('MM/DD(dd) HH:mm');
         const end_time = moment(item.EdTimeU, 'X').format('HH:mm');
         const category = categories[item.Cat]
         return `・${category} ${start_time}-${end_time} ${item.ChName} / *${item.Title}* `
