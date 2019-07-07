@@ -65,7 +65,7 @@ class ChitandaSan {
         const start_time = moment(item.StTimeU, 'X').format('MM/DD(dd) HH:mm');
         const end_time = moment(item.EdTimeU, 'X').format('HH:mm');
         const category = categories[item.Cat]
-        return `・${category} ${start_time}-${end_time} ${item.ChName} / *${item.Title}* `
+        return `・${category} ${start_time}-${end_time} ${item.ChName} / *${item.Title} ${item.Count}話* `
     })
 
     return ['*わたし、今日のテレビアニメが気になります！*', ''].concat(messages).join('\n')
