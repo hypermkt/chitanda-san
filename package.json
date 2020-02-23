@@ -11,7 +11,7 @@
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.28",
     "rss-parser": "^3.7.5",
     "takosan": "^0.0.3"
   },
