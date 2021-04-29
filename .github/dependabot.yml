@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "20:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: rss-parser
+    versions:
+    - 3.10.0
+    - 3.11.0
+  - dependency-name: moment-timezone
+    versions:
+    - 0.5.32
